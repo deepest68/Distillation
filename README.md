@@ -2,19 +2,19 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
+   - [Historical Development](#historical-development)
 2. [Fundamental Theories and Principles](#fundamental-theories-and-principles)
    - [Thermodynamic Foundations](#thermodynamic-foundations)
    - [Mass Transfer Principles](#mass-transfer-principles)
    - [Energy Balance Considerations](#energy-balance-considerations)
    - [Flash Operation Fundamentals](#flash-operation-fundamentals)
    - [Python Implementation](#python-implementation)
-3. [Historical Development](#historical-development)
-4. [State-of-the-Art Technologies](#state-of-the-art-technologies)
-5. [Binary Distillation Modeling](#binary-distillation-modeling)
-6. [Multi-Component Column Modeling](#multi-component-column-modeling)
-7. [Industrial Practices](#industrial-practices)
-8. [References and Further Reading](#references-and-further-reading)
-9. [Additional Documentation](#additional-documentation)
+3. [State-of-the-Art Technologies](#state-of-the-art-technologies)
+4. [Binary Distillation Modeling](#binary-distillation-modeling)
+5. [Multi-Component Column Modeling](#multi-component-column-modeling)
+6. [Industrial Practices](#industrial-practices)
+7. [References and Further Reading](#references-and-further-reading)
+8. [Additional Documentation](#additional-documentation)
 
 ## Introduction
 
@@ -23,6 +23,90 @@ Distillation is one of the most important and widely used separation processes i
 The art of distillation has ancient roots, with its most celebrated early applications in the production of alcoholic beverages. **Whiskey distillation** began in Ireland and Scotland around the 12th century, where monks refined techniques to concentrate alcohol from fermented grain mashes. The iconic pot stills used for single malt Scotch whiskey, with their distinctive swan-neck design, became the foundation for understanding vapor-liquid equilibrium principles. Similarly, **cognac production** in the Charente region of France (dating back to the 16th century) employed double distillation in copper pot stills, creating the premium brandy that demonstrated the power of careful fractionation to achieve exceptional product quality.
 
 These early applications in spirits production established fundamental distillation principles that would later revolutionize industrial processes. From ancient alcohol production to modern petrochemical refineries, distillation has evolved into a sophisticated unit operation that forms the backbone of numerous industrial processes, with the same core principles governing both a traditional cognac distillery and a massive crude oil refinery.
+
+### Historical Development
+
+The evolution of distillation technology spans over 5,000 years, transforming from ancient alchemical practices to sophisticated industrial processes that are essential to modern society.
+
+![Ancient Distillation](./images/ancient_distillation.png)
+*Figure 1: Ancient distillation apparatus showing early retort design used in Mesopotamian and Islamic alchemical processes (3000 BCE - 800 CE)*
+
+#### Ancient Origins (3000 BCE - 800 CE)
+- **Mesopotamian Distillation**: Evidence of simple distillation for perfumes and alcoholic beverages
+- **Alchemical Distillation**: Development by Islamic alchemists (Al-Kindi, Al-Razi)
+- **Distillation Apparatus**: Evolution from simple retorts to more sophisticated equipment
+
+![Medieval Distillation](./images/medieval_distillation.png)
+*Figure 2: Medieval distillation setup from Hieronymus Brunschwig's "Liber de Arte Distillandi" (1500), showing water-cooled condensation systems*
+
+#### Medieval Advances (800-1500 CE)
+- **Taddeo Alderotti** (1223): First documented systematic distillation studies
+- **Hieronymus Brunschwig** (1500): "Liber de Arte Distillandi" - first comprehensive distillation manual
+- **Development of Cooling Systems**: Water-cooled condensers
+
+![Traditional Pot Stills](./images/pot_stills.png)
+*Figure 3: Traditional copper pot stills used in Irish whiskey and French cognac production, demonstrating the characteristic swan-neck design for optimal vapor-liquid equilibrium*
+
+#### Alcoholic Beverage Era (1100-1700 CE)
+- **Irish/Scottish Whiskey** (12th century): Monks developed pot still distillation for "aqua vitae" (water of life)
+  - Single pot distillation initially, later double distillation for purity
+  - Copper pot stills with characteristic swan-neck design for optimal reflux
+  - Understanding of "heads," "hearts," and "tails" fractions
+- **French Cognac Production** (16th century): Charentais distillation method
+  - Double distillation in copper alembic stills (maximum 30HL capacity)
+  - "Première chauffe" and "Bonne chauffe" - systematic two-stage process
+  - Precise temperature control and fraction separation techniques
+- **Geneva and Dutch Gin** (17th century): Distillation with botanical flavoring
+  - Multi-stage redistillation for neutral spirit production
+  - Integration of flavor extraction with purification
+
+![Industrial Revolution Distillation](./images/industrial_revolution.png)
+*Figure 4: Early industrial distillation column from the petroleum industry (1850s), showing the transition from batch to continuous operation*
+
+#### Industrial Revolution Era (1700-1900)
+- **Joseph Black** (1760s): Latent heat concept revolutionized understanding
+- **Antoine Laurent Lavoisier** (1770s): Chemical composition understanding
+- **Industrial Scale Alcohol** (1800s): Continuous column stills for commercial spirits
+- **Early Petroleum Distillation** (1850s): Simple atmospheric distillation of crude oil
+  - First oil refinery (1856): Pennsylvania, focused on kerosene production
+  - Batch distillation in cast iron retorts
+
+![Petrochemical Distillation](./images/petrochemical_era.png)
+*Figure 5: Large-scale petroleum refinery distillation complex (1920s-1940s), showing multiple fractionation towers with bubble cap tray technology*
+
+#### Petrochemical Era (1900-1950)
+- **Continuous Fractional Distillation** (1900s): Development of large-scale petroleum refining
+  - **Burton Thermal Cracking** (1913): Increased gasoline yield through distillation integration
+  - **Houdry Catalytic Cracking** (1930s): Advanced separation of complex hydrocarbon mixtures
+- **Bubble Cap Tray Technology** (1920s): Improved efficiency for petroleum fractionation
+  - Systematic tray design for optimal vapor-liquid contact
+  - Application in crude oil atmospheric and vacuum distillation units
+- **Vacuum Distillation Development** (1920s-1930s): 
+  - Enabled separation of heavy petroleum fractions without thermal decomposition
+  - Critical for lubricating oil and asphalt production
+- **Petrochemical Integration** (1940s): Distillation as core of integrated refineries
+  - **Alkylation and Reforming Units**: Specialized distillation for octane improvement
+  - **Aromatics Extraction**: Benzene, toluene, xylene recovery through extractive distillation
+
+![Modern Distillation Complex](./images/modern_refinery.png)
+*Figure 6: Modern petroleum refinery with advanced control systems and multiple distillation units, representing the pinnacle of current distillation technology*
+
+#### Modern Era (1950-2000)
+- **McCabe-Thiele Method** (1925): Graphical design methodology became standard
+- **Sorel Method** (1893): Rigorous mathematical approach for complex systems
+- **Packed Column Technology** (1950s-1960s): Random and structured packings for improved mass transfer
+- **Computer-Aided Design** (1970s-1980s): Process simulation software development (ASPEN, PRO/II)
+- **Advanced Control Systems** (1980s-1990s): Implementation of model predictive control in refineries
+- **Petrochemical Expansion**: 
+  - **Ethylene/Propylene Production**: Steam cracker technology with sophisticated fractionation trains
+  - **Aromatics Complexes**: Multi-column sequences for BTX (benzene-toluene-xylene) separation
+  - **Gas Processing Plants**: Cryogenic distillation for LNG and NGL recovery
+
+#### Recent Developments (2000-Present)
+- **Reactive Distillation**: Integration of reaction and separation
+- **Dividing Wall Columns**: Energy-efficient separations
+- **Membrane-Assisted Distillation**: Hybrid separation technologies
+- **Process Intensification**: Microstructured and rotating equipment
 
 ## Fundamental Theories and Principles
 
@@ -763,69 +847,6 @@ def process_stream_flash(stream_data, flash_conditions):
 
 This Python implementation provides a comprehensive toolkit for performing flash calculations, from basic binary systems to more complex multi-component separations. The code can be easily extended for specific industrial applications and integrated into larger process simulation frameworks.
 
-## Historical Development
-
-### Ancient Origins (3000 BCE - 800 CE)
-- **Mesopotamian Distillation**: Evidence of simple distillation for perfumes and alcoholic beverages
-- **Alchemical Distillation**: Development by Islamic alchemists (Al-Kindi, Al-Razi)
-- **Distillation Apparatus**: Evolution from simple retorts to more sophisticated equipment
-
-### Medieval Advances (800-1500 CE)
-- **Taddeo Alderotti** (1223): First documented systematic distillation studies
-- **Hieronymus Brunschwig** (1500): "Liber de Arte Distillandi" - first comprehensive distillation manual
-- **Development of Cooling Systems**: Water-cooled condensers
-
-### Alcoholic Beverage Era (1100-1700 CE)
-- **Irish/Scottish Whiskey** (12th century): Monks developed pot still distillation for "aqua vitae" (water of life)
-  - Single pot distillation initially, later double distillation for purity
-  - Copper pot stills with characteristic swan-neck design for optimal reflux
-  - Understanding of "heads," "hearts," and "tails" fractions
-- **French Cognac Production** (16th century): Charentais distillation method
-  - Double distillation in copper alembic stills (maximum 30HL capacity)
-  - "Première chauffe" and "Bonne chauffe" - systematic two-stage process
-  - Precise temperature control and fraction separation techniques
-- **Geneva and Dutch Gin** (17th century): Distillation with botanical flavoring
-  - Multi-stage redistillation for neutral spirit production
-  - Integration of flavor extraction with purification
-
-### Industrial Revolution Era (1700-1900)
-- **Joseph Black** (1760s): Latent heat concept revolutionized understanding
-- **Antoine Laurent Lavoisier** (1770s): Chemical composition understanding
-- **Industrial Scale Alcohol** (1800s): Continuous column stills for commercial spirits
-- **Early Petroleum Distillation** (1850s): Simple atmospheric distillation of crude oil
-  - First oil refinery (1856): Pennsylvania, focused on kerosene production
-  - Batch distillation in cast iron retorts
-
-### Petrochemical Era (1900-1950)
-- **Continuous Fractional Distillation** (1900s): Development of large-scale petroleum refining
-  - **Burton Thermal Cracking** (1913): Increased gasoline yield through distillation integration
-  - **Houdry Catalytic Cracking** (1930s): Advanced separation of complex hydrocarbon mixtures
-- **Bubble Cap Tray Technology** (1920s): Improved efficiency for petroleum fractionation
-  - Systematic tray design for optimal vapor-liquid contact
-  - Application in crude oil atmospheric and vacuum distillation units
-- **Vacuum Distillation Development** (1920s-1930s): 
-  - Enabled separation of heavy petroleum fractions without thermal decomposition
-  - Critical for lubricating oil and asphalt production
-- **Petrochemical Integration** (1940s): Distillation as core of integrated refineries
-  - **Alkylation and Reforming Units**: Specialized distillation for octane improvement
-  - **Aromatics Extraction**: Benzene, toluene, xylene recovery through extractive distillation
-
-### Modern Era (1950-2000)
-- **McCabe-Thiele Method** (1925): Graphical design methodology became standard
-- **Sorel Method** (1893): Rigorous mathematical approach for complex systems
-- **Packed Column Technology** (1950s-1960s): Random and structured packings for improved mass transfer
-- **Computer-Aided Design** (1970s-1980s): Process simulation software development (ASPEN, PRO/II)
-- **Advanced Control Systems** (1980s-1990s): Implementation of model predictive control in refineries
-- **Petrochemical Expansion**: 
-  - **Ethylene/Propylene Production**: Steam cracker technology with sophisticated fractionation trains
-  - **Aromatics Complexes**: Multi-column sequences for BTX (benzene-toluene-xylene) separation
-  - **Gas Processing Plants**: Cryogenic distillation for LNG and NGL recovery
-
-### Recent Developments (2000-Present)
-- **Reactive Distillation**: Integration of reaction and separation
-- **Dividing Wall Columns**: Energy-efficient separations
-- **Membrane-Assisted Distillation**: Hybrid separation technologies
-- **Process Intensification**: Microstructured and rotating equipment
 
 ## State-of-the-Art Technologies
 
