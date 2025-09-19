@@ -7,6 +7,7 @@
    - [Mass Transfer Principles](#mass-transfer-principles)
    - [Energy Balance Considerations](#energy-balance-considerations)
    - [Flash Operation Fundamentals](#flash-operation-fundamentals)
+   - [Python Implementation](#python-implementation)
 3. [Historical Development](#historical-development)
 4. [State-of-the-Art Technologies](#state-of-the-art-technologies)
 5. [Binary Distillation Modeling](#binary-distillation-modeling)
@@ -177,22 +178,22 @@ A feed containing 40 mol% benzene and 60 mol% toluene at 100°C and 2 atm is fla
    ```
    0.4(1.78-1)/(1+ψ(1.78-1)) + 0.6(0.73-1)/(1+ψ(0.73-1)) = 0
    
-   Solving iteratively: ψ = 0.42
+   Solving iteratively: ψ = 0.712
    ```
 
 3. **Calculate product compositions:**
    ```
-   x_benzene = z_benzene/[1 + ψ(K_benzene - 1)] = 0.4/[1 + 0.42(0.78)] = 0.28
-   x_toluene = 1 - x_benzene = 0.72
+   x_benzene = z_benzene/[1 + ψ(K_benzene - 1)] = 0.4/[1 + 0.712(0.78)] = 0.257
+   x_toluene = 1 - x_benzene = 0.743
    
-   y_benzene = K_benzene × x_benzene = 1.78 × 0.28 = 0.50
-   y_toluene = K_toluene × x_toluene = 0.73 × 0.72 = 0.53
+   y_benzene = K_benzene × x_benzene = 1.78 × 0.257 = 0.458
+   y_toluene = K_toluene × x_toluene = 0.73 × 0.743 = 0.542
    ```
 
 **Results:**
-- Vapor fraction: ψ = 42%
-- Vapor composition: 50% benzene, 50% toluene
-- Liquid composition: 28% benzene, 72% toluene
+- Vapor fraction: ψ = 71.2%
+- Vapor composition: 45.8% benzene, 54.2% toluene
+- Liquid composition: 25.7% benzene, 74.3% toluene
 
 #### Relationship to Distillation
 
@@ -210,6 +211,553 @@ Understanding flash operations provides essential insight into:
 - The fundamental relationship between heat and mass transfer
 
 This foundation is crucial for comprehending more complex distillation column behavior and design principles.
+
+### Python Implementation
+
+To complement the theoretical understanding of flash operations, this section provides practical Python implementations for performing flash calculations. These implementations demonstrate how to solve the mathematical equations presented in the theory section.
+
+#### Flash Calculation Functions
+
+The following Python code implements the core flash calculation algorithms:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import fsolve
+import pandas as pd
+
+def calculate_k_values(T, P, components):
+    """
+    Calculate K-values using Antoine equation and ideal gas assumption.
+    
+    Parameters:
+    T (float): Temperature in Celsius
+    P (float): Pressure in mmHg
+    components (dict): Dictionary with component names as keys and Antoine constants as values
+                      Each component should have 'A', 'B', 'C' parameters
+    
+    Returns:
+    dict: K-values for each component
+    """
+    K_values = {}
+    
+    for component, antoine in components.items():
+        # Calculate vapor pressure using Antoine equation
+        A, B, C = antoine['A'], antoine['B'], antoine['C']
+        P_sat = 10**(A - B/(C + T))  # Vapor pressure in mmHg
+        
+        # Calculate K-value
+        K_values[component] = P_sat / P
+    
+    return K_values
+
+def rachford_rice_equation(psi, z, K):
+    """
+    Rachford-Rice equation for flash calculations.
+    
+    Parameters:
+    psi (float): Vapor fraction
+    z (array): Feed composition (mole fractions)
+    K (array): K-values for each component
+    
+    Returns:
+    float: Rachford-Rice equation residual
+    """
+    return np.sum(z * (K - 1) / (1 + psi * (K - 1)))
+
+def solve_flash_calculation(z, K, initial_guess=0.5):
+    """
+    Solve flash calculation using Rachford-Rice equation.
+    
+    Parameters:
+    z (array): Feed composition (mole fractions)
+    K (array): K-values for each component
+    initial_guess (float): Initial guess for vapor fraction
+    
+    Returns:
+    tuple: (vapor_fraction, liquid_composition, vapor_composition)
+    """
+    # Solve for vapor fraction
+    psi_solution = fsolve(rachford_rice_equation, initial_guess, args=(z, K))[0]
+    
+    # Constrain vapor fraction between 0 and 1
+    psi = max(0, min(1, psi_solution))
+    
+    # Calculate liquid and vapor compositions
+    x = z / (1 + psi * (K - 1))  # Liquid composition
+    y = K * x  # Vapor composition
+    
+    return psi, x, y
+
+def flash_unit_material_balance(F, z, psi, x, y):
+    """
+    Verify material balance around flash unit.
+    
+    Parameters:
+    F (float): Feed flow rate
+    z (array): Feed composition
+    psi (float): Vapor fraction
+    x (array): Liquid composition
+    y (array): Vapor composition
+    
+    Returns:
+    dict: Material balance results
+    """
+    V = psi * F  # Vapor flow rate
+    L = F - V    # Liquid flow rate
+    
+    # Overall material balance check
+    overall_balance = abs(F - (V + L))
+    
+    # Component material balance check
+    component_balance = []
+    for i in range(len(z)):
+        balance_error = abs(F * z[i] - (V * y[i] + L * x[i]))
+        component_balance.append(balance_error)
+    
+    return {
+        'vapor_flow': V,
+        'liquid_flow': L,
+        'overall_balance_error': overall_balance,
+        'component_balance_errors': np.array(component_balance)
+    }
+
+class FlashCalculator:
+    """
+    A comprehensive flash calculation class for binary and multi-component systems.
+    """
+    
+    def __init__(self, components_data):
+        """
+        Initialize flash calculator with component data.
+        
+        Parameters:
+        components_data (dict): Dictionary containing Antoine constants for each component
+        """
+        self.components_data = components_data
+        self.component_names = list(components_data.keys())
+    
+    def binary_flash(self, T, P, z_feed, F=100):
+        """
+        Perform flash calculation for binary mixture.
+        
+        Parameters:
+        T (float): Temperature in Celsius
+        P (float): Pressure in mmHg
+        z_feed (list): Feed composition [mol fraction component 1, mol fraction component 2]
+        F (float): Feed flow rate (mol/hr)
+        
+        Returns:
+        dict: Complete flash calculation results
+        """
+        # Calculate K-values
+        K_values = calculate_k_values(T, P, self.components_data)
+        K = np.array([K_values[comp] for comp in self.component_names])
+        z = np.array(z_feed)
+        
+        # Solve flash calculation
+        psi, x, y = solve_flash_calculation(z, K)
+        
+        # Material balance verification
+        balance = flash_unit_material_balance(F, z, psi, x, y)
+        
+        # Prepare results
+        results = {
+            'temperature_C': T,
+            'pressure_mmHg': P,
+            'feed_composition': dict(zip(self.component_names, z)),
+            'K_values': K_values,
+            'vapor_fraction': psi,
+            'liquid_composition': dict(zip(self.component_names, x)),
+            'vapor_composition': dict(zip(self.component_names, y)),
+            'feed_flow_molhr': F,
+            'vapor_flow_molhr': balance['vapor_flow'],
+            'liquid_flow_molhr': balance['liquid_flow'],
+            'material_balance_check': {
+                'overall_error': balance['overall_balance_error'],
+                'component_errors': dict(zip(self.component_names, balance['component_balance_errors']))
+            }
+        }
+        
+        return results
+    
+    def plot_flash_results(self, results):
+        """
+        Create visualization of flash calculation results.
+        
+        Parameters:
+        results (dict): Results from flash calculation
+        """
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(12, 10))
+        
+        components = list(results['feed_composition'].keys())
+        
+        # Composition comparison
+        compositions = ['Feed', 'Liquid', 'Vapor']
+        comp1_values = [
+            results['feed_composition'][components[0]],
+            results['liquid_composition'][components[0]],
+            results['vapor_composition'][components[0]]
+        ]
+        comp2_values = [
+            results['feed_composition'][components[1]],
+            results['liquid_composition'][components[1]],
+            results['vapor_composition'][components[1]]
+        ]
+        
+        x = np.arange(len(compositions))
+        width = 0.35
+        
+        ax1.bar(x - width/2, comp1_values, width, label=components[0], alpha=0.8)
+        ax1.bar(x + width/2, comp2_values, width, label=components[1], alpha=0.8)
+        ax1.set_xlabel('Stream')
+        ax1.set_ylabel('Mole Fraction')
+        ax1.set_title('Composition Comparison')
+        ax1.set_xticks(x)
+        ax1.set_xticklabels(compositions)
+        ax1.legend()
+        ax1.grid(True, alpha=0.3)
+        
+        # Flow rates
+        streams = ['Feed', 'Vapor', 'Liquid']
+        flow_rates = [
+            results['feed_flow_molhr'],
+            results['vapor_flow_molhr'],
+            results['liquid_flow_molhr']
+        ]
+        colors = ['blue', 'red', 'green']
+        
+        ax2.bar(streams, flow_rates, color=colors, alpha=0.7)
+        ax2.set_ylabel('Flow Rate (mol/hr)')
+        ax2.set_title('Stream Flow Rates')
+        ax2.grid(True, alpha=0.3)
+        
+        # K-values
+        K_vals = [results['K_values'][comp] for comp in components]
+        ax3.bar(components, K_vals, color=['orange', 'purple'], alpha=0.7)
+        ax3.set_ylabel('K-value')
+        ax3.set_title('Equilibrium Distribution Coefficients')
+        ax3.grid(True, alpha=0.3)
+        
+        # Vapor fraction visualization
+        ax4.pie([results['vapor_fraction'], 1-results['vapor_fraction']], 
+                labels=['Vapor', 'Liquid'], autopct='%1.1f%%', 
+                colors=['lightcoral', 'lightblue'])
+        ax4.set_title('Phase Distribution')
+        
+        plt.tight_layout()
+        plt.show()
+        
+        return fig
+
+def print_flash_results(results):
+    """
+    Print formatted flash calculation results.
+    
+    Parameters:
+    results (dict): Results from flash calculation
+    """
+    print("="*60)
+    print("FLASH CALCULATION RESULTS")
+    print("="*60)
+    print(f"Temperature: {results['temperature_C']:.1f}°C")
+    print(f"Pressure: {results['pressure_mmHg']:.0f} mmHg")
+    print()
+    
+    print("K-VALUES:")
+    for comp, k_val in results['K_values'].items():
+        print(f"  {comp}: {k_val:.2f}")
+    print()
+    
+    print("COMPOSITIONS (mole fraction):")
+    print(f"{'Component':<12} {'Feed':<8} {'Liquid':<8} {'Vapor':<8}")
+    print("-" * 40)
+    for comp in results['feed_composition'].keys():
+        print(f"{comp:<12} {results['feed_composition'][comp]:<8.3f} "
+              f"{results['liquid_composition'][comp]:<8.3f} "
+              f"{results['vapor_composition'][comp]:<8.3f}")
+    print()
+    
+    print("FLOW RATES:")
+    print(f"  Feed: {results['feed_flow_molhr']:.1f} mol/hr")
+    print(f"  Vapor: {results['vapor_flow_molhr']:.1f} mol/hr")
+    print(f"  Liquid: {results['liquid_flow_molhr']:.1f} mol/hr")
+    print(f"  Vapor fraction: {results['vapor_fraction']:.1%}")
+    print()
+    
+    print("MATERIAL BALANCE CHECK:")
+    print(f"  Overall balance error: {results['material_balance_check']['overall_error']:.2e}")
+    for comp, error in results['material_balance_check']['component_errors'].items():
+        print(f"  {comp} balance error: {error:.2e}")
+```
+
+#### Practical Example: Benzene-Toluene Flash Calculation
+
+This example reproduces the benzene-toluene flash calculation from the theory section:
+
+```python
+# Define component data (Antoine constants)
+benzene_toluene_data = {
+    'benzene': {'A': 6.90565, 'B': 1211.033, 'C': 220.79},
+    'toluene': {'A': 6.95464, 'B': 1344.8, 'C': 219.482}
+}
+
+# Create flash calculator
+flash_calc = FlashCalculator(benzene_toluene_data)
+
+# Perform flash calculation (conditions from theory example)
+results = flash_calc.binary_flash(
+    T=100,  # °C
+    P=760,  # mmHg (1 atm)
+    z_feed=[0.4, 0.6],  # 40% benzene, 60% toluene
+    F=100   # mol/hr
+)
+
+# Display results
+print_flash_results(results)
+
+# Create visualization
+fig = flash_calc.plot_flash_results(results)
+```
+
+#### Multi-Component Flash Example
+
+For systems with more than two components:
+
+```python
+# Example: Propane-Butane-Pentane mixture
+multicomponent_data = {
+    'propane': {'A': 6.82973, 'B': 803.997, 'C': 246.99},
+    'butane': {'A': 6.83029, 'B': 945.906, 'C': 240.0},
+    'pentane': {'A': 6.85221, 'B': 1064.840, 'C': 232.014}
+}
+
+multi_calc = FlashCalculator(multicomponent_data)
+
+# Flash calculation for three-component mixture
+multi_results = multi_calc.binary_flash(
+    T=60,   # °C
+    P=760,  # mmHg
+    z_feed=[0.3, 0.4, 0.3],  # Equal distribution
+    F=200   # mol/hr
+)
+
+print_flash_results(multi_results)
+```
+
+#### Advanced Flash Calculations
+
+For more complex scenarios involving non-ideal behavior:
+
+```python
+def antoine_with_pressure_correction(T, P, A, B, C, omega=0):
+    """
+    Modified Antoine equation with pressure correction for non-ideal behavior.
+    
+    Parameters:
+    T (float): Temperature in Celsius
+    P (float): System pressure in mmHg
+    A, B, C (float): Antoine constants
+    omega (float): Acentric factor for pressure correction
+    
+    Returns:
+    float: Corrected vapor pressure
+    """
+    P_sat = 10**(A - B/(C + T))
+    
+    # Pressure correction factor (simplified)
+    if omega > 0:
+        correction = 1 + omega * (P / P_sat - 1) * 0.1
+        P_sat *= correction
+    
+    return P_sat
+
+def flash_with_activity_coefficients(z, K, gamma_L=None, phi_V=None):
+    """
+    Flash calculation including activity coefficients and fugacity coefficients.
+    
+    Parameters:
+    z (array): Feed composition
+    K (array): K-values
+    gamma_L (array): Liquid activity coefficients (default: ideal)
+    phi_V (array): Vapor fugacity coefficients (default: ideal)
+    
+    Returns:
+    tuple: (vapor_fraction, liquid_composition, vapor_composition)
+    """
+    if gamma_L is None:
+        gamma_L = np.ones_like(z)
+    if phi_V is None:
+        phi_V = np.ones_like(z)
+    
+    # Modified K-values for non-ideal behavior
+    K_modified = K * gamma_L / phi_V
+    
+    return solve_flash_calculation(z, K_modified)
+
+# Example usage with activity coefficients
+gamma_benzene = 1.05  # Slight positive deviation
+gamma_toluene = 0.98  # Slight negative deviation
+
+nonideal_results = flash_with_activity_coefficients(
+    z=np.array([0.4, 0.6]),
+    K=np.array([1.78, 0.73]),
+    gamma_L=np.array([gamma_benzene, gamma_toluene])
+)
+
+print(f"Non-ideal flash results:")
+print(f"Vapor fraction: {nonideal_results[0]:.3f}")
+print(f"Liquid composition: {nonideal_results[1]}")
+print(f"Vapor composition: {nonideal_results[2]}")
+```
+
+#### Sensitivity Analysis
+
+Analyze how flash results vary with operating conditions:
+
+```python
+def sensitivity_analysis(flash_calculator, base_conditions, parameter, range_values):
+    """
+    Perform sensitivity analysis on flash calculation parameters.
+    
+    Parameters:
+    flash_calculator: FlashCalculator instance
+    base_conditions (dict): Base case conditions
+    parameter (str): Parameter to vary ('T', 'P', or composition)
+    range_values (array): Range of values to test
+    
+    Returns:
+    pandas.DataFrame: Results for each parameter value
+    """
+    results_list = []
+    
+    for value in range_values:
+        conditions = base_conditions.copy()
+        
+        if parameter == 'T':
+            conditions['T'] = value
+        elif parameter == 'P':
+            conditions['P'] = value
+        elif parameter.startswith('z_'):
+            # Modify composition while maintaining closure
+            comp_index = int(parameter.split('_')[1])
+            conditions['z_feed'][comp_index] = value
+            conditions['z_feed'][1-comp_index] = 1 - value
+        
+        result = flash_calculator.binary_flash(**conditions)
+        
+        results_list.append({
+            parameter: value,
+            'vapor_fraction': result['vapor_fraction'],
+            'benzene_liquid': result['liquid_composition']['benzene'],
+            'benzene_vapor': result['vapor_composition']['benzene'],
+            'separation_factor': (result['vapor_composition']['benzene'] / 
+                                result['liquid_composition']['benzene']) / 
+                               (result['vapor_composition']['toluene'] / 
+                                result['liquid_composition']['toluene'])
+        })
+    
+    return pd.DataFrame(results_list)
+
+# Example sensitivity analysis
+base_case = {
+    'T': 100,
+    'P': 760,
+    'z_feed': [0.4, 0.6],
+    'F': 100
+}
+
+# Temperature sensitivity
+temp_range = np.linspace(80, 120, 20)
+temp_sensitivity = sensitivity_analysis(flash_calc, base_case, 'T', temp_range)
+
+# Plot temperature sensitivity
+plt.figure(figsize=(10, 6))
+plt.subplot(1, 2, 1)
+plt.plot(temp_sensitivity['T'], temp_sensitivity['vapor_fraction'], 'b-o')
+plt.xlabel('Temperature (°C)')
+plt.ylabel('Vapor Fraction')
+plt.title('Vapor Fraction vs Temperature')
+plt.grid(True, alpha=0.3)
+
+plt.subplot(1, 2, 2)
+plt.plot(temp_sensitivity['T'], temp_sensitivity['separation_factor'], 'r-s')
+plt.xlabel('Temperature (°C)')
+plt.ylabel('Separation Factor')
+plt.title('Separation Factor vs Temperature')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+#### Installation and Dependencies
+
+To use these Python implementations, install the required dependencies:
+
+```bash
+pip install numpy matplotlib scipy pandas
+```
+
+Or create a `requirements.txt` file:
+
+```
+numpy>=1.20.0
+matplotlib>=3.3.0
+scipy>=1.7.0
+pandas>=1.3.0
+```
+
+#### Integration with Process Simulation
+
+These flash calculation functions can be integrated with process simulation workflows:
+
+```python
+def process_stream_flash(stream_data, flash_conditions):
+    """
+    Flash calculation for process simulation integration.
+    
+    Parameters:
+    stream_data (dict): Process stream information
+    flash_conditions (dict): Flash operating conditions
+    
+    Returns:
+    dict: Updated stream data with vapor and liquid outlets
+    """
+    # Extract relevant data
+    composition = stream_data['composition']
+    flow_rate = stream_data['flow_rate']
+    
+    # Perform flash calculation
+    flash_calc = FlashCalculator(stream_data['component_data'])
+    results = flash_calc.binary_flash(
+        T=flash_conditions['temperature'],
+        P=flash_conditions['pressure'],
+        z_feed=list(composition.values()),
+        F=flow_rate
+    )
+    
+    # Create output streams
+    vapor_stream = {
+        'flow_rate': results['vapor_flow_molhr'],
+        'composition': results['vapor_composition'],
+        'temperature': flash_conditions['temperature'],
+        'pressure': flash_conditions['pressure'],
+        'phase': 'vapor'
+    }
+    
+    liquid_stream = {
+        'flow_rate': results['liquid_flow_molhr'],
+        'composition': results['liquid_composition'],
+        'temperature': flash_conditions['temperature'],
+        'pressure': flash_conditions['pressure'],
+        'phase': 'liquid'
+    }
+    
+    return {'vapor': vapor_stream, 'liquid': liquid_stream}
+```
+
+This Python implementation provides a comprehensive toolkit for performing flash calculations, from basic binary systems to more complex multi-component separations. The code can be easily extended for specific industrial applications and integrated into larger process simulation frameworks.
 
 ## Historical Development
 
@@ -714,6 +1262,16 @@ Relates actual reflux ratio to minimum reflux and stages
 ## Additional Documentation
 
 This repository includes several detailed documentation files covering specific aspects of distillation technology:
+
+### 🐍 [Python Implementation](./python_implementation/)
+Complete Python implementation of flash calculations including:
+- Core flash calculation algorithms and FlashCalculator class
+- Binary and multi-component system examples
+- Benzene-toluene case study (matching theoretical calculations)
+- Industrial application examples (crude oil fractionation)
+- Sensitivity analysis tools and visualization capabilities
+- Material balance verification functions
+- Integration with process simulation workflows
 
 ### 📊 [Modeling Examples and Case Studies](./modeling-examples.md)
 Comprehensive examples and case studies including:
