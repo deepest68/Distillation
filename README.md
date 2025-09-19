@@ -3,6 +3,10 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Fundamental Theories and Principles](#fundamental-theories-and-principles)
+   - [Thermodynamic Foundations](#thermodynamic-foundations)
+   - [Mass Transfer Principles](#mass-transfer-principles)
+   - [Energy Balance Considerations](#energy-balance-considerations)
+   - [Flash Operation Fundamentals](#flash-operation-fundamentals)
 3. [Historical Development](#historical-development)
 4. [State-of-the-Art Technologies](#state-of-the-art-technologies)
 5. [Binary Distillation Modeling](#binary-distillation-modeling)
@@ -68,6 +72,144 @@ H_feed + Q = H_vapor + H_liquid
 
 #### Minimum Reflux Ratio
 Determines economic optimization point between capital and operating costs.
+
+### Flash Operation Fundamentals
+
+Flash operation (or flash vaporization) is one of the simplest and most fundamental separation processes, serving as the building block for understanding more complex distillation operations. A flash unit provides an excellent introduction to the principles of heat and material balance around separation equipment.
+
+#### Process Description
+
+In a flash operation, a liquid feed stream is partially vaporized by reducing pressure and/or adding heat, creating two equilibrium phases:
+- **Vapor phase**: Rich in more volatile components
+- **Liquid phase**: Rich in less volatile components
+
+The process occurs in a **flash drum** (or flash tank), where sufficient residence time allows vapor-liquid equilibrium to be established.
+
+#### Material Balance Around Flash Unit
+
+Consider a flash unit with feed flow rate F, vapor product V, and liquid product L:
+
+**Overall Material Balance:**
+```
+F = V + L
+```
+
+**Component Material Balance:**
+```
+F × z_i = V × y_i + L × x_i
+```
+
+Where:
+- F = feed molar flow rate (mol/hr)
+- V = vapor molar flow rate (mol/hr)  
+- L = liquid molar flow rate (mol/hr)
+- z_i = mole fraction of component i in feed
+- y_i = mole fraction of component i in vapor
+- x_i = mole fraction of component i in liquid
+
+**Vaporization Fraction:**
+```
+ψ = V/F = (z_i - x_i)/(y_i - x_i)
+```
+
+#### Energy Balance Around Flash Unit
+
+**Enthalpy Balance:**
+```
+F × H_F + Q = V × H_V + L × H_L
+```
+
+Where:
+- H_F = specific enthalpy of feed (J/mol)
+- H_V = specific enthalpy of vapor (J/mol)
+- H_L = specific enthalpy of liquid (J/mol)
+- Q = heat added to system (J/hr, positive for heating)
+
+**Heat Duty Calculation:**
+For an adiabatic flash (Q = 0), the feed enthalpy determines the vapor fraction:
+```
+ψ = (H_F - H_L)/(H_V - H_L)
+```
+
+#### Vapor-Liquid Equilibrium in Flash
+
+At equilibrium, the vapor and liquid compositions are related by:
+
+**K-value Relationship:**
+```
+K_i = y_i/x_i = (γ_i × P_i^sat)/P
+```
+
+Where:
+- K_i = equilibrium distribution coefficient
+- γ_i = activity coefficient (= 1 for ideal solutions)
+- P_i^sat = vapor pressure of pure component i
+- P = system pressure
+
+**Rachford-Rice Equation:**
+For multi-component flash calculations:
+```
+Σ[z_i(K_i - 1)/(1 + ψ(K_i - 1))] = 0
+```
+
+This equation is solved iteratively to find the vaporization fraction ψ.
+
+#### Flash Operation Example: Benzene-Toluene Mixture
+
+**Problem Statement:**
+A feed containing 40 mol% benzene and 60 mol% toluene at 100°C and 2 atm is flashed to 1 atm. Calculate the vapor fraction and product compositions.
+
+**Given Data:**
+- Feed: F = 100 mol/hr, z_benzene = 0.4, z_toluene = 0.6
+- Temperature: 100°C (constant)
+- Pressure: Reduced from 2 atm to 1 atm
+- Vapor pressures at 100°C: P_benzene^sat = 1350 mmHg, P_toluene^sat = 556 mmHg
+
+**Solution Steps:**
+
+1. **Calculate K-values:**
+   ```
+   K_benzene = P_benzene^sat/P = 1350/760 = 1.78
+   K_toluene = P_toluene^sat/P = 556/760 = 0.73
+   ```
+
+2. **Solve Rachford-Rice equation for ψ:**
+   ```
+   0.4(1.78-1)/(1+ψ(1.78-1)) + 0.6(0.73-1)/(1+ψ(0.73-1)) = 0
+   
+   Solving iteratively: ψ = 0.42
+   ```
+
+3. **Calculate product compositions:**
+   ```
+   x_benzene = z_benzene/[1 + ψ(K_benzene - 1)] = 0.4/[1 + 0.42(0.78)] = 0.28
+   x_toluene = 1 - x_benzene = 0.72
+   
+   y_benzene = K_benzene × x_benzene = 1.78 × 0.28 = 0.50
+   y_toluene = K_toluene × x_toluene = 0.73 × 0.72 = 0.53
+   ```
+
+**Results:**
+- Vapor fraction: ψ = 42%
+- Vapor composition: 50% benzene, 50% toluene
+- Liquid composition: 28% benzene, 72% toluene
+
+#### Relationship to Distillation
+
+Flash operation concepts directly apply to distillation:
+
+1. **Each theoretical stage** in a distillation column can be modeled as a flash calculation
+2. **Material and energy balances** form the foundation of stage-by-stage calculations
+3. **Vapor-liquid equilibrium** relationships are identical
+4. **Feed conditioning** often involves flash calculations to determine optimal feed tray location
+
+Understanding flash operations provides essential insight into:
+- How composition changes with pressure and temperature
+- The driving force for separation (K-values)
+- Energy requirements for vaporization
+- The fundamental relationship between heat and mass transfer
+
+This foundation is crucial for comprehending more complex distillation column behavior and design principles.
 
 ## Historical Development
 
