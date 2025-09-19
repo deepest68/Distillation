@@ -18,7 +18,11 @@
 
 ## Introduction
 
-Distillation is one of the most important and widely used separation processes in the chemical industry, particularly for the purification of chemical mixtures. This process exploits differences in vapor pressures and boiling points of components to achieve separation. From ancient alcohol production to modern petrochemical refineries, distillation has evolved into a sophisticated unit operation that forms the backbone of numerous industrial processes.
+Distillation is one of the most important and widely used separation processes in the chemical industry, particularly for the purification of chemical mixtures. This process exploits differences in vapor pressures and boiling points of components to achieve separation. 
+
+The art of distillation has ancient roots, with its most celebrated early applications in the production of alcoholic beverages. **Whiskey distillation** began in Ireland and Scotland around the 12th century, where monks refined techniques to concentrate alcohol from fermented grain mashes. The iconic pot stills used for single malt Scotch whiskey, with their distinctive swan-neck design, became the foundation for understanding vapor-liquid equilibrium principles. Similarly, **cognac production** in the Charente region of France (dating back to the 16th century) employed double distillation in copper pot stills, creating the premium brandy that demonstrated the power of careful fractionation to achieve exceptional product quality.
+
+These early applications in spirits production established fundamental distillation principles that would later revolutionize industrial processes. From ancient alcohol production to modern petrochemical refineries, distillation has evolved into a sophisticated unit operation that forms the backbone of numerous industrial processes, with the same core principles governing both a traditional cognac distillery and a massive crude oil refinery.
 
 ## Fundamental Theories and Principles
 
@@ -771,16 +775,51 @@ This Python implementation provides a comprehensive toolkit for performing flash
 - **Hieronymus Brunschwig** (1500): "Liber de Arte Distillandi" - first comprehensive distillation manual
 - **Development of Cooling Systems**: Water-cooled condensers
 
+### Alcoholic Beverage Era (1100-1700 CE)
+- **Irish/Scottish Whiskey** (12th century): Monks developed pot still distillation for "aqua vitae" (water of life)
+  - Single pot distillation initially, later double distillation for purity
+  - Copper pot stills with characteristic swan-neck design for optimal reflux
+  - Understanding of "heads," "hearts," and "tails" fractions
+- **French Cognac Production** (16th century): Charentais distillation method
+  - Double distillation in copper alembic stills (maximum 30HL capacity)
+  - "Première chauffe" and "Bonne chauffe" - systematic two-stage process
+  - Precise temperature control and fraction separation techniques
+- **Geneva and Dutch Gin** (17th century): Distillation with botanical flavoring
+  - Multi-stage redistillation for neutral spirit production
+  - Integration of flavor extraction with purification
+
 ### Industrial Revolution Era (1700-1900)
 - **Joseph Black** (1760s): Latent heat concept revolutionized understanding
 - **Antoine Laurent Lavoisier** (1770s): Chemical composition understanding
-- **Industrial Scale**: First large-scale distillation for alcohol and petroleum
+- **Industrial Scale Alcohol** (1800s): Continuous column stills for commercial spirits
+- **Early Petroleum Distillation** (1850s): Simple atmospheric distillation of crude oil
+  - First oil refinery (1856): Pennsylvania, focused on kerosene production
+  - Batch distillation in cast iron retorts
 
-### Modern Era (1900-Present)
-- **McCabe-Thiele Method** (1925): Graphical design methodology
-- **Sorel Method** (1893): Rigorous mathematical approach
-- **Computer-Aided Design**: Process simulation software development
-- **Advanced Control Systems**: Implementation of model predictive control
+### Petrochemical Era (1900-1950)
+- **Continuous Fractional Distillation** (1900s): Development of large-scale petroleum refining
+  - **Burton Thermal Cracking** (1913): Increased gasoline yield through distillation integration
+  - **Houdry Catalytic Cracking** (1930s): Advanced separation of complex hydrocarbon mixtures
+- **Bubble Cap Tray Technology** (1920s): Improved efficiency for petroleum fractionation
+  - Systematic tray design for optimal vapor-liquid contact
+  - Application in crude oil atmospheric and vacuum distillation units
+- **Vacuum Distillation Development** (1920s-1930s): 
+  - Enabled separation of heavy petroleum fractions without thermal decomposition
+  - Critical for lubricating oil and asphalt production
+- **Petrochemical Integration** (1940s): Distillation as core of integrated refineries
+  - **Alkylation and Reforming Units**: Specialized distillation for octane improvement
+  - **Aromatics Extraction**: Benzene, toluene, xylene recovery through extractive distillation
+
+### Modern Era (1950-2000)
+- **McCabe-Thiele Method** (1925): Graphical design methodology became standard
+- **Sorel Method** (1893): Rigorous mathematical approach for complex systems
+- **Packed Column Technology** (1950s-1960s): Random and structured packings for improved mass transfer
+- **Computer-Aided Design** (1970s-1980s): Process simulation software development (ASPEN, PRO/II)
+- **Advanced Control Systems** (1980s-1990s): Implementation of model predictive control in refineries
+- **Petrochemical Expansion**: 
+  - **Ethylene/Propylene Production**: Steam cracker technology with sophisticated fractionation trains
+  - **Aromatics Complexes**: Multi-column sequences for BTX (benzene-toluene-xylene) separation
+  - **Gas Processing Plants**: Cryogenic distillation for LNG and NGL recovery
 
 ### Recent Developments (2000-Present)
 - **Reactive Distillation**: Integration of reaction and separation
