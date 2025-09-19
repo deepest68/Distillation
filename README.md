@@ -178,22 +178,22 @@ A feed containing 40 mol% benzene and 60 mol% toluene at 100°C and 2 atm is fla
    ```
    0.4(1.78-1)/(1+ψ(1.78-1)) + 0.6(0.73-1)/(1+ψ(0.73-1)) = 0
    
-   Solving iteratively: ψ = 0.42
+   Solving iteratively: ψ = 0.712
    ```
 
 3. **Calculate product compositions:**
    ```
-   x_benzene = z_benzene/[1 + ψ(K_benzene - 1)] = 0.4/[1 + 0.42(0.78)] = 0.28
-   x_toluene = 1 - x_benzene = 0.72
+   x_benzene = z_benzene/[1 + ψ(K_benzene - 1)] = 0.4/[1 + 0.712(0.78)] = 0.257
+   x_toluene = 1 - x_benzene = 0.743
    
-   y_benzene = K_benzene × x_benzene = 1.78 × 0.28 = 0.50
-   y_toluene = K_toluene × x_toluene = 0.73 × 0.72 = 0.53
+   y_benzene = K_benzene × x_benzene = 1.78 × 0.257 = 0.458
+   y_toluene = K_toluene × x_toluene = 0.73 × 0.743 = 0.542
    ```
 
 **Results:**
-- Vapor fraction: ψ = 42%
-- Vapor composition: 50% benzene, 50% toluene
-- Liquid composition: 28% benzene, 72% toluene
+- Vapor fraction: ψ = 71.2%
+- Vapor composition: 45.8% benzene, 54.2% toluene
+- Liquid composition: 25.7% benzene, 74.3% toluene
 
 #### Relationship to Distillation
 
