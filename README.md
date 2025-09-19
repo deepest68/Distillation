@@ -53,6 +53,10 @@ The separation factor (α) determines the ease of separation:
 
 Where larger α values indicate easier separation.
 
+![Vapor-Liquid Equilibrium Diagrams](images/vle_diagrams.png)
+
+*Figure 2: Vapor-liquid equilibrium curves showing the effect of relative volatility on separation efficiency (left) and temperature-composition relationships (right)*
+
 ### Mass Transfer Principles
 
 #### Two-Film Theory
@@ -89,6 +93,10 @@ In a flash operation, a liquid feed stream is partially vaporized by reducing pr
 - **Liquid phase**: Rich in less volatile components
 
 The process occurs in a **flash drum** (or flash tank), where sufficient residence time allows vapor-liquid equilibrium to be established.
+
+![Flash Distillation Process](images/flash_drum_diagram.png)
+
+*Figure 1: Flash distillation process diagram showing feed stream separation into vapor and liquid products*
 
 #### Material Balance Around Flash Unit
 
@@ -198,6 +206,10 @@ A feed containing 40 mol% benzene and 60 mol% toluene at 100°C and 2 atm is fla
 - Vapor fraction: ψ = 71.2%
 - Vapor composition: 45.8% benzene, 54.2% toluene
 - Liquid composition: 25.7% benzene, 74.3% toluene
+
+![Flash Calculation Example](images/flash_calculation_example.png)
+
+*Figure 4: Flash calculation results visualization showing composition comparison, flow rates, K-values, and phase distribution for the benzene-toluene example*
 
 #### Relationship to Distillation
 
@@ -896,6 +908,10 @@ The McCabe-Thiele method provides an elegant graphical solution for binary disti
 4. Step off theoretical stages
 5. Calculate actual stages using tray efficiency
 
+![McCabe-Thiele Diagram](images/mccabe_thiele_diagram.png)
+
+*Figure 3: McCabe-Thiele diagram illustrating the graphical design method for binary distillation with equilibrium curve, operating lines, and theoretical stage stepping*
+
 #### Mathematical Relationships
 
 **Rectifying Section Operating Line:**
@@ -954,6 +970,15 @@ Modern simulation uses simultaneous solution of:
 - Rate-based modeling (mass transfer)
 - Dynamic simulation capabilities
 - Optimization algorithms
+
+#### Industry Reference Resources
+
+For process engineers, these resources provide standard diagrams and design guidelines:
+
+- **[PFD and P&ID Standards (ISA-5.1)](https://www.isa.org/products/isa-5-1-2009-instrumentation-symbols-and-identificat)** - Standard symbols for process flow diagrams and piping & instrumentation diagrams
+- **[NIST Chemistry WebBook](https://webbook.nist.gov/chemistry/)** - Comprehensive thermodynamic data including vapor pressure correlations and physical properties
+- **[DIPPR Database](https://www.aiche.org/dippr)** - Industry standard for pure component properties and thermodynamic data
+- **[Perry's Chemical Engineers' Handbook](https://www.accessengineeringlibrary.com/content/book/9780071834087)** - Standard reference containing distillation design charts and correlations
 
 ## Multi-Component Column Modeling
 

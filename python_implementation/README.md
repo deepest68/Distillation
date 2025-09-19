@@ -45,6 +45,10 @@ print_flash_results(results)
 fig = flash_calc.plot_flash_results(results)
 ```
 
+![Flash Calculation Example](../images/flash_calculation_example.png)
+
+*Example output from the flash calculation showing composition comparison, flow rates, K-values, and phase distribution*
+
 ## Running Examples
 
 To run all examples:

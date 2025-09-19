@@ -1,5 +1,9 @@
 # Distillation Modeling Examples and Case Studies
 
+![McCabe-Thiele Method](images/mccabe_thiele_diagram.png)
+
+*Figure 1: McCabe-Thiele diagram demonstrating the graphical design approach used in the case studies below*
+
 ## Binary Distillation Case Study: Benzene-Toluene Separation
 
 ### Problem Statement
@@ -226,7 +230,19 @@ Methanol + Isobutylene ⇌ MTBE
 
 ## References
 
+### Technical Literature
 1. Kister, H.Z. "Distillation Design" McGraw-Hill, 1992
 2. Seader, J.D. et al. "Separation Process Principles" Wiley, 2016
 3. Luyben, W.L. "Distillation Design and Control Using Aspen" Wiley, 2013
 4. Taylor, R. & Krishna, R. "Multicomponent Mass Transfer" Wiley, 1993
+
+### Industry Standards and Data Sources
+- **[NIST Chemistry WebBook](https://webbook.nist.gov/chemistry/)** - Comprehensive vapor pressure and thermodynamic property data
+- **[DDBST GmbH](http://www.ddbst.com/)** - Extensive vapor-liquid equilibrium database and distillation design tools
+- **[Aspen Technology](https://www.aspentech.com/en/resources)** - Process modeling case studies and application examples
+- **[AIChE DIPPR Database](https://www.aiche.org/dippr)** - Standard reference for physical property data used in process simulation
+
+### Process Engineering Diagrams and Standards
+- **[Process Flow Diagram Standards](https://www.isa.org/products/isa-5-1-2009-instrumentation-symbols-and-identificat)** - ISA-5.1 symbols for PFDs and P&IDs
+- **[TEMA Heat Exchanger Standards](https://www.tema.org/)** - Standard designs for reboilers and condensers
+- **[API Pressure Vessel Standards](https://www.api.org/products-and-services/standards)** - API 660 for heat exchangers, API 521 for pressure relief

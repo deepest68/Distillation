@@ -1,5 +1,9 @@
 # Industrial Distillation Equipment and Design
 
+![Distillation Column Schematic](images/distillation_column_diagram.png)
+
+*Figure 1: Distillation column schematic showing main components including condenser, reboiler, feed location, product streams, and internal tray structure*
+
 ## Column Internals Design
 
 ### Tray Selection and Design
@@ -79,6 +83,14 @@ Where:
 - H_G: Gas-phase height equivalent
 - H_L: Liquid-phase height equivalent  
 - H_diff: Diffusion contribution
+
+#### Industry Standard Packing References
+
+For detailed packing specifications and performance data, refer to:
+
+- **[Sulzer Mellapak Product Guide](https://www.sulzer.com/en/products/separation-technology/structured-packings)** - Comprehensive technical data sheets for structured packings including HETP correlations and capacity charts
+- **[Koch-Glitsch Mass Transfer Products](https://www.kochglitsch.com/products/mass-transfer)** - Technical bulletins for Flexipac structured packings and random packings
+- **[Raschig Process Technology](https://www.raschig.com/products/mass-transfer)** - Performance data for Super-Ring and other random packings
 
 ### Random Packing Selection
 
