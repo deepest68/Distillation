@@ -57,9 +57,6 @@ venv.bak/
 .DS_Store
 Thumbs.db
 
-# Placeholder images (keep README.md in images/)
-images/*.png
-images/*.jpg
-images/*.jpeg
-images/*.gif
-images/*.svg
+# Keep README.md in images/ but allow documentation images
+# Note: Historical distillation images are now included for documentation
+# If you need to exclude other images, be specific about the filenames
