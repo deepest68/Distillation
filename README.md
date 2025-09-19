@@ -9,6 +9,7 @@
 6. [Multi-Component Column Modeling](#multi-component-column-modeling)
 7. [Industrial Practices](#industrial-practices)
 8. [References and Further Reading](#references-and-further-reading)
+9. [Additional Documentation](#additional-documentation)
 
 ## Introduction
 
@@ -567,6 +568,42 @@ Relates actual reflux ratio to minimum reflux and stages
 22. **"Microreactors in Organic Chemistry and Catalysis" by Thomas Wirth** (2013)
     - Wiley-VCH
     - Process intensification applications
+
+## Additional Documentation
+
+This repository includes several detailed documentation files covering specific aspects of distillation technology:
+
+### 📊 [Modeling Examples and Case Studies](./modeling-examples.md)
+Comprehensive examples and case studies including:
+- Binary distillation (Benzene-Toluene separation)
+- Multi-component systems (Depropanizer design)
+- Industrial examples (Ethylene plant demethanizer)
+- Reactive distillation (MTBE synthesis)
+- Advanced control implementations
+- Economic optimization examples
+- Troubleshooting guide with common problems and solutions
+
+### ⚙️ [Equipment Design and Engineering](./equipment-design.md)
+Detailed engineering specifications covering:
+- Column internals design (trays, structured packing, random packing)
+- Heat exchanger design (reboilers, condensers)
+- Column sizing and hydraulics calculations
+- Material selection and metallurgy considerations
+- Safety and environmental compliance
+- Instrumentation and control systems
+- Maintenance and reliability engineering
+- Industry standards and codes (API, ASME, TEMA)
+
+### 🚀 [Advanced Technologies and Process Intensification](./advanced-technologies.md)
+Cutting-edge developments including:
+- Dividing Wall Columns (DWC) design and applications
+- Heat Integrated Distillation Columns (HIDiC)
+- Reactive distillation systems and case studies
+- Membrane-assisted distillation technologies
+- Microstructured distillation equipment
+- Rotating distillation (Higee technology)
+- Future trends and emerging technologies
+- AI integration and digital twin applications
 
 ---
 
